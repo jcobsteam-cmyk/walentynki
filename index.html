@@ -1,137 +1,216 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>💘 Walentynka 💘</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
-    }
+<meta charset="UTF-8">
+<title>💘 Walentynka 💘</title>
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Comic Sans MS', sans-serif;
+}
 
-    .card {
-      background: rgba(255,255,255,0.9);
-      padding: 40px 60px;
-      border-radius: 25px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      z-index: 10;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    h1 {
-      color: #e60073;
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-    }
+.card {
+  background: rgba(255,255,255,0.95);
+  padding: 35px 50px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  max-width: 500px;
+  z-index: 10;
+}
 
-    .buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-    }
+h1 {
+  color: #e60073;
+  margin-bottom: 10px;
+}
 
-    button {
-      font-size: 1.2rem;
-      padding: 15px 30px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
+.counter {
+  margin: 15px 0 25px;
+  font-size: 1.1rem;
+  color: #c2185b;
+}
 
-    button:hover {
-      transform: scale(1.1);
-    }
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-    .yes {
-      background: #ff4d6d;
-      color: white;
-    }
+button {
+  font-size: 1.1rem;
+  padding: 12px 25px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
-    .yes2 {
-      background: #ff85a1;
-      color: white;
-    }
+button:hover {
+  transform: scale(1.1);
+}
 
-    /* Serduszka */
-    .heart {
-      position: absolute;
-      color: #ff3366;
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.8;
-    }
+.yes { background: #ff4d6d; color: white; }
+.yes2 { background: #ff85a1; color: white; }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
-      10% { opacity: 1; }
-      100% {
-        transform: translateY(-10vh) scale(1.5);
-        opacity: 0;
-      }
-    }
+.result {
+  font-size: 1.4rem;
+  color: #e60073;
+  display: none;
+  margin-bottom: 20px;
+}
 
-    .result {
-      margin-top: 25px;
-      font-size: 1.5rem;
-      color: #e60073;
-      display: none;
-    }
-  </style>
+/* QUIZ */
+.quiz {
+  display: none;
+  text-align: left;
+}
+
+.quiz h2 {
+  text-align: center;
+  color: #e60073;
+}
+
+.question {
+  margin-bottom: 15px;
+}
+
+.quiz button {
+  width: 100%;
+  margin-top: 10px;
+  background: #ff4d6d;
+  color: white;
+}
+
+/* SERDUSZKA */
+.heart {
+  position: absolute;
+  color: #ff3366;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateY(-10vh) scale(1.5);
+    opacity: 0;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h1>💖 Zostaniesz moją walentynką? 💖</h1>
+<div class="card">
+  <h1>💖 Zostaniesz moją walentynką? 💖</h1>
 
-    <div class="buttons">
-      <button class="yes" onclick="yes()">Tak 💕</button>
-      <button class="yes2" onclick="yes()">Też tak 😘</button>
-    </div>
+  <div class="counter" id="counter"></div>
 
-    <div class="result" id="result">
-      🥰 Wiedziałem! Kocham cię Wikuś 💘
-    </div>
+  <div class="buttons">
+    <button class="yes" onclick="yes()">Tak 💕</button>
+    <button class="yes2" onclick="yes()">Też tak 😘</button>
   </div>
 
-  <script>
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerText = "❤";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-      document.body.appendChild(heart);
+  <div class="result" id="result">
+    🥰 Wiedziałem! Teraz mały quiz 💘
+  </div>
 
-      setTimeout(() => {
-        heart.remove();
-      }, 7000);
-    }
+  <div class="quiz" id="quiz">
+    <h2>💌 Quiz o nas 💌</h2>
 
-    setInterval(createHeart, 300);
+    <div class="question">
+      1️⃣ Kto kogo kocha bardziej?
+      <br>
+      <input type="radio" name="q1"> Ja  
+      <br>
+      <input type="radio" name="q1"> Ty  
+      <br>
+      <input type="radio" name="q1" checked> Oboje tak samo 💖
+    </div>
 
-    function yes() {
-      document.getElementById("result").style.display = "block";
-      for (let i = 0; i < 20; i++) {
-        setTimeout(createHeart, i * 100);
-      }
-    }
-  </script>
+    <div class="question">
+      2️⃣ Najlepsze miejsce na randkę?
+      <br>
+      <input type="radio" name="q2" checked> Gdziekolwiek, byle razem ❤️
+    </div>
+
+    <div class="question">
+      3️⃣ Czy zostaniemy razem na długo?
+      <br>
+      <input type="radio" name="q3" checked> Tak. Na zawsze 💍
+    </div>
+
+    <button onclick="finishQuiz()">Zatwierdź 💘</button>
+  </div>
+</div>
+
+<script>
+/* LICZNIK DNI */
+const startDate = new Date("2025-09-22T00:00:00");
+
+function updateCounter() {
+  const now = new Date();
+  const diff = now - startDate;
+
+  if (diff < 0) {
+    document.getElementById("counter").innerHTML =
+      "📅 Będziemy razem od 22 września 2025 💖";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+  document.getElementById("counter").innerHTML =
+    `❤️ Jesteśmy razem już <b>${days}</b> dni, ${hours} h ${minutes} min ❤️`;
+}
+
+setInterval(updateCounter, 1000);
+updateCounter();
+
+/* SERDUSZKA */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+  heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 300);
+
+/* PRZYCISKI */
+function yes() {
+  document.getElementById("result").style.display = "block";
+  document.getElementById("quiz").style.display = "block";
+  for (let i = 0; i < 20; i++) {
+    setTimeout(createHeart, i * 100);
+  }
+}
+
+function finishQuiz() {
+  alert("💖 Idealnie! Kocham Cię najmocniej 💖");
+}
+</script>
 
 </body>
 </html>
