@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>💘 Walentynka 💘</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9);
+      padding: 40px 60px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    h1 {
+      color: #e60073;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .yes2 {
+      background: #ff85a1;
+      color: white;
+    }
+
+    /* Serduszka */
+    .heart {
+      position: absolute;
+      color: #ff3366;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 1.5rem;
+      color: #e60073;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>💖 Zostaniesz moją walentynką? 💖</h1>
+
+    <div class="buttons">
+      <button class="yes" onclick="yes()">Tak 💕</button>
+      <button class="yes2" onclick="yes()">Też tak 😘</button>
+    </div>
+
+    <div class="result" id="result">
+      🥰 Wiedziałem! Kocham cię Wikuś 💘
+    </div>
+  </div>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+
+    setInterval(createHeart, 300);
+
+    function yes() {
+      document.getElementById("result").style.display = "block";
+      for (let i = 0; i < 20; i++) {
+        setTimeout(createHeart, i * 100);
+      }
+    }
+  </script>
+
+</body>
+</html>
